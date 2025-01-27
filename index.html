@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debounced Input</title>
+</head>
+<body>
+    <div style="padding: 20px; font-family: Arial, sans-serif;">
+        <h2>Search</h2>
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Type to search..."
+          style="padding: 10px; width: 300px; font-size: 16px;"
+        />
+      </div>
+      <div id="output" style="margin: 20px 0 0 20px; font-size: 18px;"></div>
+<script>
+// Debounce function
+function debounce(func, wait) {
+  let timeout;
+
+  return function (...args) {
+    clearTimeout(timeout); // Clear the previous timeout
+    timeout = setTimeout(() => func.apply(this, args), wait); // Set a new timeout
+  };
+}
+
+// Function to handle input changes
+const handleInputChange = (value) => {
+  console.log(`Searching for: ${value}`);
+  document.getElementById('output').innerText = `Searching for: ${value}`;
+};
+
+// Debounced version of the input change handler
+const debouncedInputChange = debounce(handleInputChange, 500);
+  
+
+// Add an event listener to the input field
+document.getElementById('searchInput').addEventListener('keyup', (event) => {
+  debouncedInputChange(event.target.value);
+});
+</script>
+</body>
+</html>
